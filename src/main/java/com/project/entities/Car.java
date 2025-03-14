@@ -1,6 +1,6 @@
 package com.project.entities;
 
-public class car {
+public class Car {
     private Integer id;
     private String name;
     private String description;
@@ -9,9 +9,9 @@ public class car {
     private String latitude;
     private String logitude ;
     private String type;
-    public car(){};
+    public Car(){};
 
-    public car(Integer id, String name, String description, String urlPhoto, String urlVideo, String latitude, String logitude, String type) {
+    public Car(Integer id, String name, String description, String urlPhoto, String urlVideo, String latitude, String logitude, String type) {
         this.id = id;
         this.name = name;
         this.description = description;

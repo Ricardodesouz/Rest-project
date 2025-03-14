@@ -2,7 +2,7 @@ package com.project.domain;
 
 import com.project.db.ConnectionException;
 import com.project.db.DatabaseConnection;
-import com.project.entities.car;
+import com.project.entities.Car;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +12,27 @@ public class CarDaoJDBC implements CarDAO {
     private PreparedStatement st = null;
     private ResultSet rs = null;
 
-    @Override
-    public  List<car> getCarros(){
-        List<car>  carros = new ArrayList<>();
+    public CarDaoJDBC(){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        }
+        catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+    public  List<Car> getCarros(){
+        List<Car>  carros = new ArrayList<>();
         conn = DatabaseConnection.getConnection();
         try{
             st = conn.prepareStatement("SELECT * FROM CARRO");
             rs = st.executeQuery();
-            System.out.print(rs.next());
             while (rs.next()){
                carros.add(instantiateCarro(rs));
-               System.out.print(rs.next());
 
             }
 
@@ -38,7 +48,7 @@ public class CarDaoJDBC implements CarDAO {
     }
 
     @Override
-    public car getid(Integer id) {
+    public Car getid(Integer id) {
         conn = DatabaseConnection.getConnection();
         try {
             st = conn.prepareStatement("SELECT * FROM CARRO WHERE ?");
@@ -77,7 +87,7 @@ public class CarDaoJDBC implements CarDAO {
     }
 
     @Override
-    public void update(Integer idEntity, car newCarro) {
+    public void update(Integer idEntity, Car newCarro) {
         conn = DatabaseConnection.getConnection();
         try{
             st = conn.prepareStatement("UPDATE CARRO SET nome=?, descricao=?, url_video=?," +
@@ -96,7 +106,7 @@ public class CarDaoJDBC implements CarDAO {
     }
 
     @Override
-    public void created(car newCarro) {
+    public void created(Car newCarro) {
         conn = DatabaseConnection.getConnection();
 
         try{
@@ -125,8 +135,8 @@ public class CarDaoJDBC implements CarDAO {
 
     }
 
-    private car instantiateCarro(ResultSet rs) throws SQLException{
-        car c = new car();
+    private Car instantiateCarro(ResultSet rs) throws SQLException{
+        Car c = new Car();
         c.setId(rs.getInt("id"));
         c.setName(rs.getString("nome"));
         c.setDescription(rs.getString("descricao"));
@@ -139,7 +149,7 @@ public class CarDaoJDBC implements CarDAO {
 
     }
     // Achei melhor fazer uma sobrecarga para melhor organizacao do codigo.
-    private void configurePreparedStament( PreparedStatement st, Integer id, car newCarro) throws SQLException{
+    private void configurePreparedStament( PreparedStatement st, Integer id, Car newCarro) throws SQLException{
         st.setString(1,newCarro.getname());
         st.setString(2,newCarro.getDescription());
         st.setString(3,newCarro.getUrlVideo());
@@ -151,8 +161,8 @@ public class CarDaoJDBC implements CarDAO {
 
 
     }
-    
-    private void configurePreparedStament( PreparedStatement st,  car newCarro) throws SQLException{
+
+    private void configurePreparedStament( PreparedStatement st,  Car newCarro) throws SQLException{
         st.setString(1,newCarro.getname());
         st.setString(2,newCarro.getDescription());
         st.setString(3,newCarro.getUrlVideo());
