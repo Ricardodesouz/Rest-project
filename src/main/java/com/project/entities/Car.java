@@ -1,5 +1,9 @@
 package com.project.entities;
 
+
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Car {
     private Integer id;
     private String name;
